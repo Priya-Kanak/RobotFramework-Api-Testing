@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.7.0 on win32)" generated="20200409 15:26:06.015" rpa="false">
+<suite id="s1" name="Sample API Framework" source="C:\Users\AC49605\Desktop\Robot\Sample_API_Framework">
+<suite id="s1-s1" name="GetResponseValidation" source="C:\Users\AC49605\Desktop\Robot\Sample_API_Framework\GetResponseValidation.robot">
+<test id="s1-s1-t1" name="GET_Request">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>baseURI</arg>
+<arg>${base_URL}</arg>
+</arguments>
+<msg timestamp="20200409 15:26:06.706" level="INFO">Creating Session using : alias=baseURI, url=http://dummy.restapiexample.com/api/v1, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200409 15:26:06.704" endtime="20200409 15:26:06.707"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>baseURI</arg>
+<arg>${Servicename}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200409 15:26:06.709" level="INFO">GET Request using : uri=/employees, params=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+data=None 
+json=None</msg>
+<msg timestamp="20200409 15:26:07.768" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20200409 15:26:06.708" endtime="20200409 15:26:07.769"></status>
+</kw>
+<kw name="Status Should Be" library="RequestsLibrary">
+<doc>Fails if response status code is different than the expected.</doc>
+<arguments>
+<arg>200</arg>
+<arg>${response}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.771" endtime="20200409 15:26:07.772"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.773" endtime="20200409 15:26:07.774"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.776" level="INFO">${json} = {'status': 'success', 'data': [{'id': '1', 'employee_name': 'Tiger Nixon', 'employee_salary': '320800', 'employee_age': '61', 'profile_image': ''}, {'id': '2', 'employee_name': 'Garrett Winters', 'emp...</msg>
+<status status="PASS" starttime="20200409 15:26:07.775" endtime="20200409 15:26:07.776"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.777" endtime="20200409 15:26:07.778"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${json}</arg>
+<arg>data</arg>
+</arguments>
+<assign>
+<var>${framework}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.780" level="INFO">${framework} = [{'id': '1', 'employee_name': 'Tiger Nixon', 'employee_salary': '320800', 'employee_age': '61', 'profile_image': ''}, {'id': '2', 'employee_name': 'Garrett Winters', 'employee_salary': '170750', 'empl...</msg>
+<status status="PASS" starttime="20200409 15:26:07.779" endtime="20200409 15:26:07.780"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${framework}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.781" endtime="20200409 15:26:07.783"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.785" level="INFO">${resp} = {"status":"success","data":[{"id":"1","employee_name":"Tiger Nixon","employee_salary":"320800","employee_age":"61","profile_image":""},{"id":"2","employee_name":"Garrett Winters","employee_salary":"17...</msg>
+<status status="PASS" starttime="20200409 15:26:07.784" endtime="20200409 15:26:07.786"></status>
+</kw>
+<kw name="${item} IN [ @{framework} ]" type="for">
+<kw name="${item} = {'id': '1', 'employee_name': 'Tiger Nixon', 'employee_salary': '320800', 'employee_age': '61', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.790" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.789" endtime="20200409 15:26:07.790"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.792" level="INFO">${Key_value} = ['1', 'Tiger Nixon', '320800', '61', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.791" endtime="20200409 15:26:07.792"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.792" endtime="20200409 15:26:07.794"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.795" endtime="20200409 15:26:07.796"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.788" endtime="20200409 15:26:07.796"></status>
+</kw>
+<kw name="${item} = {'id': '2', 'employee_name': 'Garrett Winters', 'employee_salary': '170750', 'employee_age': '63', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.799" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.798" endtime="20200409 15:26:07.799"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.801" level="INFO">${Key_value} = ['2', 'Garrett Winters', '170750', '63', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.800" endtime="20200409 15:26:07.801"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.802" endtime="20200409 15:26:07.803"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.804" endtime="20200409 15:26:07.805"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.797" endtime="20200409 15:26:07.805"></status>
+</kw>
+<kw name="${item} = {'id': '3', 'employee_name': 'Ashton Cox', 'employee_salary': '86000', 'employee_age': '66', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.808" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.806" endtime="20200409 15:26:07.808"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.811" level="INFO">${Key_value} = ['3', 'Ashton Cox', '86000', '66', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.809" endtime="20200409 15:26:07.811"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.812" endtime="20200409 15:26:07.813"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.813" endtime="20200409 15:26:07.814"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.806" endtime="20200409 15:26:07.814"></status>
+</kw>
+<kw name="${item} = {'id': '4', 'employee_name': 'Cedric Kelly', 'employee_salary': '433060', 'employee_age': '22', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.818" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.816" endtime="20200409 15:26:07.818"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.820" level="INFO">${Key_value} = ['4', 'Cedric Kelly', '433060', '22', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.819" endtime="20200409 15:26:07.821"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.821" endtime="20200409 15:26:07.823"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.824" endtime="20200409 15:26:07.824"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.815" endtime="20200409 15:26:07.825"></status>
+</kw>
+<kw name="${item} = {'id': '5', 'employee_name': 'Airi Satou', 'employee_salary': '162700', 'employee_age': '33', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.827" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.826" endtime="20200409 15:26:07.828"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.830" level="INFO">${Key_value} = ['5', 'Airi Satou', '162700', '33', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.829" endtime="20200409 15:26:07.831"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.831" endtime="20200409 15:26:07.832"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.833" endtime="20200409 15:26:07.835"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.826" endtime="20200409 15:26:07.835"></status>
+</kw>
+<kw name="${item} = {'id': '6', 'employee_name': 'Brielle Williamson', 'employee_salary': '372000', 'employee_age': '61', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.838" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.837" endtime="20200409 15:26:07.838"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.840" level="INFO">${Key_value} = ['6', 'Brielle Williamson', '372000', '61', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.839" endtime="20200409 15:26:07.840"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.841" endtime="20200409 15:26:07.841"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.843" endtime="20200409 15:26:07.843"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.836" endtime="20200409 15:26:07.844"></status>
+</kw>
+<kw name="${item} = {'id': '7', 'employee_name': 'Herrod Chandler', 'employee_salary': '137500', 'employee_age': '59', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.846" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.846" endtime="20200409 15:26:07.847"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.847" level="INFO">${Key_value} = ['7', 'Herrod Chandler', '137500', '59', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.847" endtime="20200409 15:26:07.849"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.849" endtime="20200409 15:26:07.850"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.851" endtime="20200409 15:26:07.852"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.845" endtime="20200409 15:26:07.853"></status>
+</kw>
+<kw name="${item} = {'id': '8', 'employee_name': 'Rhona Davidson', 'employee_salary': '327900', 'employee_age': '55', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.856" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.854" endtime="20200409 15:26:07.856"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.858" level="INFO">${Key_value} = ['8', 'Rhona Davidson', '327900', '55', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.857" endtime="20200409 15:26:07.858"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.859" endtime="20200409 15:26:07.859"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.860" endtime="20200409 15:26:07.861"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.854" endtime="20200409 15:26:07.861"></status>
+</kw>
+<kw name="${item} = {'id': '9', 'employee_name': 'Colleen Hurst', 'employee_salary': '205500', 'employee_age': '39', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.863" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.862" endtime="20200409 15:26:07.864"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.865" level="INFO">${Key_value} = ['9', 'Colleen Hurst', '205500', '39', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.864" endtime="20200409 15:26:07.865"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.866" endtime="20200409 15:26:07.867"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.868" endtime="20200409 15:26:07.869"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.862" endtime="20200409 15:26:07.870"></status>
+</kw>
+<kw name="${item} = {'id': '10', 'employee_name': 'Sonya Frost', 'employee_salary': '103600', 'employee_age': '23', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.871" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.871" endtime="20200409 15:26:07.871"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.874" level="INFO">${Key_value} = ['10', 'Sonya Frost', '103600', '23', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.873" endtime="20200409 15:26:07.874"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.875" endtime="20200409 15:26:07.876"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.876" endtime="20200409 15:26:07.877"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.871" endtime="20200409 15:26:07.878"></status>
+</kw>
+<kw name="${item} = {'id': '11', 'employee_name': 'Jena Gaines', 'employee_salary': '90560', 'employee_age': '30', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.880" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.879" endtime="20200409 15:26:07.880"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.882" level="INFO">${Key_value} = ['11', 'Jena Gaines', '90560', '30', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.881" endtime="20200409 15:26:07.882"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.883" endtime="20200409 15:26:07.883"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.884" endtime="20200409 15:26:07.885"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.878" endtime="20200409 15:26:07.886"></status>
+</kw>
+<kw name="${item} = {'id': '12', 'employee_name': 'Quinn Flynn', 'employee_salary': '342000', 'employee_age': '22', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.888" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.887" endtime="20200409 15:26:07.888"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.890" level="INFO">${Key_value} = ['12', 'Quinn Flynn', '342000', '22', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.889" endtime="20200409 15:26:07.890"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.891" endtime="20200409 15:26:07.892"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.893" endtime="20200409 15:26:07.893"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.887" endtime="20200409 15:26:07.894"></status>
+</kw>
+<kw name="${item} = {'id': '13', 'employee_name': 'Charde Marshall', 'employee_salary': '470600', 'employee_age': '36', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.895" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.895" endtime="20200409 15:26:07.896"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.898" level="INFO">${Key_value} = ['13', 'Charde Marshall', '470600', '36', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.897" endtime="20200409 15:26:07.899"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.899" endtime="20200409 15:26:07.899"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.900" endtime="20200409 15:26:07.902"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.894" endtime="20200409 15:26:07.902"></status>
+</kw>
+<kw name="${item} = {'id': '14', 'employee_name': 'Haley Kennedy', 'employee_salary': '313500', 'employee_age': '43', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.905" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.905" endtime="20200409 15:26:07.905"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.908" level="INFO">${Key_value} = ['14', 'Haley Kennedy', '313500', '43', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.907" endtime="20200409 15:26:07.909"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.909" endtime="20200409 15:26:07.910"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.911" endtime="20200409 15:26:07.912"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.904" endtime="20200409 15:26:07.912"></status>
+</kw>
+<kw name="${item} = {'id': '15', 'employee_name': 'Tatyana Fitzpatrick', 'employee_salary': '385750', 'employee_age': '19', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.914" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.914" endtime="20200409 15:26:07.915"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.916" level="INFO">${Key_value} = ['15', 'Tatyana Fitzpatrick', '385750', '19', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.915" endtime="20200409 15:26:07.916"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.918" endtime="20200409 15:26:07.919"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.920" endtime="20200409 15:26:07.923"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.913" endtime="20200409 15:26:07.923"></status>
+</kw>
+<kw name="${item} = {'id': '16', 'employee_name': 'Michael Silva', 'employee_salary': '198500', 'employee_age': '66', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.927" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.926" endtime="20200409 15:26:07.927"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.929" level="INFO">${Key_value} = ['16', 'Michael Silva', '198500', '66', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.928" endtime="20200409 15:26:07.929"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.930" endtime="20200409 15:26:07.931"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.931" endtime="20200409 15:26:07.932"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.924" endtime="20200409 15:26:07.932"></status>
+</kw>
+<kw name="${item} = {'id': '17', 'employee_name': 'Paul Byrd', 'employee_salary': '725000', 'employee_age': '64', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.934" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.934" endtime="20200409 15:26:07.935"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.937" level="INFO">${Key_value} = ['17', 'Paul Byrd', '725000', '64', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.936" endtime="20200409 15:26:07.937"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.938" endtime="20200409 15:26:07.939"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.939" endtime="20200409 15:26:07.940"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.933" endtime="20200409 15:26:07.940"></status>
+</kw>
+<kw name="${item} = {'id': '18', 'employee_name': 'Gloria Little', 'employee_salary': '237500', 'employee_age': '59', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.943" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.942" endtime="20200409 15:26:07.943"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.945" level="INFO">${Key_value} = ['18', 'Gloria Little', '237500', '59', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.944" endtime="20200409 15:26:07.945"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.946" endtime="20200409 15:26:07.946"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.946" endtime="20200409 15:26:07.948"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.941" endtime="20200409 15:26:07.948"></status>
+</kw>
+<kw name="${item} = {'id': '19', 'employee_name': 'Bradley Greer', 'employee_salary': '132000', 'employee_age': '41', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.950" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.949" endtime="20200409 15:26:07.951"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.952" level="INFO">${Key_value} = ['19', 'Bradley Greer', '132000', '41', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.952" endtime="20200409 15:26:07.953"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.954" endtime="20200409 15:26:07.955"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.955" endtime="20200409 15:26:07.956"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.949" endtime="20200409 15:26:07.957"></status>
+</kw>
+<kw name="${item} = {'id': '20', 'employee_name': 'Dai Rios', 'employee_salary': '217500', 'employee_age': '35', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.960" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.960" endtime="20200409 15:26:07.961"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.963" level="INFO">${Key_value} = ['20', 'Dai Rios', '217500', '35', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.962" endtime="20200409 15:26:07.963"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.964" endtime="20200409 15:26:07.965"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.965" endtime="20200409 15:26:07.966"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.957" endtime="20200409 15:26:07.967"></status>
+</kw>
+<kw name="${item} = {'id': '21', 'employee_name': 'Jenette Caldwell', 'employee_salary': '345000', 'employee_age': '30', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.969" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.968" endtime="20200409 15:26:07.970"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.971" level="INFO">${Key_value} = ['21', 'Jenette Caldwell', '345000', '30', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.970" endtime="20200409 15:26:07.971"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.972" endtime="20200409 15:26:07.973"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.973" endtime="20200409 15:26:07.974"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.967" endtime="20200409 15:26:07.975"></status>
+</kw>
+<kw name="${item} = {'id': '22', 'employee_name': 'Yuri Berry', 'employee_salary': '675000', 'employee_age': '40', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.977" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.976" endtime="20200409 15:26:07.978"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.979" level="INFO">${Key_value} = ['22', 'Yuri Berry', '675000', '40', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.978" endtime="20200409 15:26:07.980"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.980" endtime="20200409 15:26:07.981"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.981" endtime="20200409 15:26:07.983"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.975" endtime="20200409 15:26:07.983"></status>
+</kw>
+<kw name="${item} = {'id': '23', 'employee_name': 'Caesar Vance', 'employee_salary': '106450', 'employee_age': '21', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.985" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.984" endtime="20200409 15:26:07.986"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.988" level="INFO">${Key_value} = ['23', 'Caesar Vance', '106450', '21', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.987" endtime="20200409 15:26:07.988"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.989" endtime="20200409 15:26:07.990"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.990" endtime="20200409 15:26:07.991"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.984" endtime="20200409 15:26:07.991"></status>
+</kw>
+<kw name="${item} = {'id': '24', 'employee_name': 'Doris Wilder', 'employee_salary': '85600', 'employee_age': '23', 'profile_image': ''}" type="foritem">
+<kw name="Get Dictionary Keys" library="Collections">
+<doc>Returns keys of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_set}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.994" level="INFO">${Key_set} = ['id', 'employee_name', 'employee_salary', 'employee_age', 'profile_image']</msg>
+<status status="PASS" starttime="20200409 15:26:07.993" endtime="20200409 15:26:07.994"></status>
+</kw>
+<kw name="Get Dictionary Values" library="Collections">
+<doc>Returns values of the given ``dictionary`` as a list.</doc>
+<arguments>
+<arg>${item}</arg>
+<arg>sort_keys=False</arg>
+</arguments>
+<assign>
+<var>${Key_value}</var>
+</assign>
+<msg timestamp="20200409 15:26:07.996" level="INFO">${Key_value} = ['24', 'Doris Wilder', '85600', '23', '']</msg>
+<status status="PASS" starttime="20200409 15:26:07.995" endtime="20200409 15:26:07.996"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_set}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.996" endtime="20200409 15:26:07.998"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Key_value}</arg>
+</arguments>
+<status status="PASS" starttime="20200409 15:26:07.998" endtime="20200409 15:26:08.003"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.993" endtime="20200409 15:26:08.006"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:07.786" endtime="20200409 15:26:08.007"></status>
+</kw>
+<status status="PASS" starttime="20200409 15:26:06.702" endtime="20200409 15:26:08.008" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200409 15:26:06.140" endtime="20200409 15:26:08.009"></status>
+</suite>
+<status status="PASS" starttime="20200409 15:26:06.098" endtime="20200409 15:26:08.012"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="Sample API Framework">Sample API Framework</stat>
+<stat pass="1" fail="0" id="s1-s1" name="GetResponseValidation">Sample API Framework.GetResponseValidation</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20200409 15:26:06.667" level="WARN">Imported library 'http' contains no keywords.</msg>
+</errors>
+</robot>

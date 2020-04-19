@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec name="ExtendedRequestsLibrary" type="library" format="ROBOT" generated="20200329 16:15:00">
+<version>0.5.5</version>
+<scope>global</scope>
+<namedargs>yes</namedargs>
+<doc>ExtendedRequestsLibrary is an extended HTTP client library for
+[http://goo.gl/lES6WM|Robot Framework] with [http://goo.gl/VehoOR|OAuth2] support
+that leverages other projects:
+- [http://goo.gl/8p7MOG|requests] project
+- [https://goo.gl/Tavax4|requests_oauthlib] project
+- [https://goo.gl/3FBo9w|RequestsLibrary] project
+
+Examples:
+| `Create Client OAuth2 Session` | client-label | https://token | key | secret | base_url=https://service |
+| ${var} = | `Post Request` | client-label | /endpoint | json=${"key": "value"} |
+| Log | ${var} |
+| `Create Password OAuth2 Session` | member-label | https://token | key | secret | usn | pwd | base_url=https://service |
+| ${var} = | `Post Request` | member-label | /endpoint | json=${"key": "value"} |
+| Log | ${var} |
+| `Delete All Sessions` |
+
+Example for File Upload:
+| &amp;{files} = | Create Dictionary | file1=/path/to/a_file.ext | file2=/path/to/another_file.ext | # Collections library |
+| `Create Client OAuth2 Session` | label | https://token | key | secret | base_url=https://service |
+| ${var} = | `Post Request` | label | /endpoint | files=&amp;{files} |
+| Log | ${var} |
+
+Non-inherited Keywords:
+| `Create Client OAuth2 Session`      |
+| `Create Password OAuth2 Session`    |
+| `Get JSON File`                     |
+| `Get Session Object`                |
+| `JSON Loads`                        |
+| `Natural Sort List Of Dictionaries` |
+
+Inherited Deprecated Keywords:
+| `Delete`  |
+| `Get`     |
+| `Head`    |
+| `Options` |
+| `Patch`   |
+| `Post`    |
+| `Put`     |
+| `To Json` |</doc>
+<kw name="Create Client Cert Session">
+<arguments>
+<arg>alias</arg>
+<arg>url</arg>
+<arg>headers={}</arg>
+<arg>cookies={}</arg>
+<arg>client_certs=None</arg>
+<arg>timeout=None</arg>
+<arg>proxies=None</arg>
+<arg>verify=False</arg>
+<arg>debug=0</arg>
+<arg>max_retries=3</arg>
+<arg>backoff_factor=0.1</arg>
+<arg>disable_warnings=0</arg>
+<arg>retry_status_list=[]</arg>
+<arg>retry_method_list=['TRACE', 'DELETE', 'PUT', 'OPTIONS', 'HEAD', 'GET']</arg>
+</arguments>
+<doc>Create Session: create a HTTP session to a server
+
+``url`` Base url of the server
+
+``alias`` Robot Framework alias to identify the session
+
+``headers`` Dictionary of default headers
+
+``cookies`` Dictionary of cookies
+
+``client_certs`` ['client certificate', 'client key'] PEM files containing the client key and certificate
+
+``timeout`` Connection timeout
+
+``proxies`` Dictionary that contains proxy urls for HTTP and HTTPS communication
+
+``verify`` Whether the SSL cert will be verified. A CA_BUNDLE path can also be provided.
+         Defaults to False.
+
+``debug`` Enable http verbosity option more information
+        https://docs.python.org/2/library/httplib.html#httplib.HTTPConnection.set_debuglevel
+
+``max_retries`` Number of maximum retries each connection should attempt.
+                By default it will retry 3 times in case of connection errors only.
+                A 0 value will disable any kind of retries regardless of other retry settings.
+                In case the number of retries is reached a retry exception is raised.
+
+``disable_warnings`` Disable requests warning useful when you have large number of testcases
+
+``backoff_factor`` Introduces a delay time between retries that is longer after each retry.
+                   eg. if backoff_factor is set to 0.1
+                   the sleep between attemps will be: 0.0, 0.2, 0.4
+                   More info here: https://urllib3.readthedocs.io/en/latest/reference/urllib3.util.html
+
+``retry_method_list`` List of uppercased HTTP method verbs where retries are allowed.
+                      By default retries are allowed only on HTTP requests methods that are considered to be
+                      idempotent (multiple requests with the same parameters end with the same state).
+                      eg. set to ['POST', 'GET'] to retry only those kind of requests.
+
+``retry_status_list`` List of integer HTTP status codes that, if returned, a retry is attempted.
+                      eg. set to [502, 503] to retry requests if those status are returned.
+                      Note that max_retries must be greater than 0.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Client Oauth2 Session">
+<arguments>
+<arg>*args</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Create and return an [http://goo.gl/VehoOR|OAuth2] session object to a server
+with [https://goo.gl/EJsqun|client credentials] authorization grant
+[https://goo.gl/YjNlJf|access token].
+
+Arguments:
+- ``label``: A case and space insensitive string to identify the OAuth2 session.
+- ``token_url``: The OAuth2 token server URL.
+- ``tenant_id``: The client id obtained during registration with OAuth2 provider.
+- ``tenant_secret``: The client secret obtained during registration with OAuth2 provider.
+- ``base_url``: The server base URL.
+- ``headers``: Default headers dictionary.
+- ``cookies``: Default cookies dictionary.
+- ``timeout``: The connection timeout in seconds.
+- ``proxies``: The proxy URLs dictionary for HTTP and/or HTTPS communication.
+- ``verify``: Set to True if [http://goo.gl/8p7MOG|Requests] should verify the SSL
+              certificate.
+
+Examples:
+| ${var} = | Create Client OAuth2 Session | label | https://token |
+| ${var} = | Create Client OAuth2 Session | label | https://token | key | secret |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Custom Session">
+<arguments>
+<arg>alias</arg>
+<arg>url</arg>
+<arg>auth</arg>
+<arg>headers={}</arg>
+<arg>cookies={}</arg>
+<arg>timeout=None</arg>
+<arg>proxies=None</arg>
+<arg>verify=False</arg>
+<arg>debug=0</arg>
+<arg>max_retries=3</arg>
+<arg>backoff_factor=0.1</arg>
+<arg>disable_warnings=0</arg>
+<arg>retry_status_list=[]</arg>
+<arg>retry_method_list=['TRACE', 'DELETE', 'PUT', 'OPTIONS', 'HEAD', 'GET']</arg>
+</arguments>
+<doc>Create Session: create a HTTP session to a server
+
+``url`` Base url of the server
+
+``alias`` Robot Framework alias to identify the session
+
+``headers`` Dictionary of default headers
+
+``cookies`` Dictionary of cookies
+
+``auth`` A Custom Authentication object to be passed on to the requests library.
+        http://docs.python-requests.org/en/master/user/advanced/#custom-authentication
+
+``timeout`` Connection timeout
+
+``proxies`` Dictionary that contains proxy urls for HTTP and HTTPS communication
+
+``verify`` Whether the SSL cert will be verified. A CA_BUNDLE path can also be provided.
+         Defaults to False.
+
+``debug`` Enable http verbosity option more information
+        https://docs.python.org/2/library/httplib.html#httplib.HTTPConnection.set_debuglevel
+
+``max_retries`` Number of maximum retries each connection should attempt.
+                By default it will retry 3 times in case of connection errors only.
+                A 0 value will disable any kind of retries regardless of other retry settings.
+                In case the number of retries is reached a retry exception is raised.
+
+``disable_warnings`` Disable requests warning useful when you have large number of testcases
+
+``backoff_factor`` Introduces a delay time between retries that is longer after each retry.
+                   eg. if backoff_factor is set to 0.1
+                   the sleep between attemps will be: 0.0, 0.2, 0.4
+                   More info here: https://urllib3.readthedocs.io/en/latest/reference/urllib3.util.html
+
+``retry_method_list`` List of uppercased HTTP method verbs where retries are allowed.
+                      By default retries are allowed only on HTTP requests methods that are considered to be
+                      idempotent (multiple requests with the same parameters end with the same state).
+                      eg. set to ['POST', 'GET'] to retry only those kind of requests.
+
+``retry_status_list`` List of integer HTTP status codes that, if returned, a retry is attempted.
+                      eg. set to [502, 503] to retry requests if those status are returned.
+                      Note that max_retries must be greater than 0.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Digest Session">
+<arguments>
+<arg>alias</arg>
+<arg>url</arg>
+<arg>auth</arg>
+<arg>headers={}</arg>
+<arg>cookies={}</arg>
+<arg>timeout=None</arg>
+<arg>proxies=None</arg>
+<arg>verify=False</arg>
+<arg>debug=0</arg>
+<arg>max_retries=3</arg>
+<arg>backoff_factor=0.1</arg>
+<arg>disable_warnings=0</arg>
+<arg>retry_status_list=[]</arg>
+<arg>retry_method_list=['TRACE', 'DELETE', 'PUT', 'OPTIONS', 'HEAD', 'GET']</arg>
+</arguments>
+<doc>Create Session: create a HTTP session to a server
+
+``url`` Base url of the server
+
+``alias`` Robot Framework alias to identify the session
+
+``headers`` Dictionary of default headers
+
+``cookies`` Dictionary of cookies
+
+``auth`` ['DOMAIN', 'username', 'password'] for NTLM Authentication
+
+``timeout`` Connection timeout
+
+``proxies`` Dictionary that contains proxy urls for HTTP and HTTPS communication
+
+``verify`` Whether the SSL cert will be verified. A CA_BUNDLE path can also be provided.
+         Defaults to False.
+
+``debug`` Enable http verbosity option more information
+        https://docs.python.org/2/library/httplib.html#httplib.HTTPConnection.set_debuglevel
+
+``max_retries`` Number of maximum retries each connection should attempt.
+                By default it will retry 3 times in case of connection errors only.
+                A 0 value will disable any kind of retries regardless of other retry settings.
+                In case the number of retries is reached a retry exception is raised.
+
+``disable_warnings`` Disable requests warning useful when you have large number of testcases
+
+``backoff_factor`` Introduces a delay time between retries that is longer after each retry.
+                   eg. if backoff_factor is set to 0.1
+                   the sleep between attemps will be: 0.0, 0.2, 0.4
+                   More info here: https://urllib3.readthedocs.io/en/latest/reference/urllib3.util.html
+
+``retry_method_list`` List of uppercased HTTP method verbs where retries are allowed.
+                      By default retries are allowed only on HTTP requests methods that are considered to be
+                      idempotent (multiple requests with the same parameters end with the same state).
+                      eg. set to ['POST', 'GET'] to retry only those kind of requests.
+
+``retry_status_list`` List of integer HTTP status codes that, if returned, a retry is attempted.
+                      eg. set to [502, 503] to retry requests if those status are returned.
+                      Note that max_retries must be greater than 0.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Ntlm Session">
+<arguments>
+<arg>label</arg>
+<arg>base_url</arg>
+<arg>auth</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Create and return a [https://goo.gl/zac4cn|NTLM] session object to a server.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify the OAuth2 session.
+- ``base_url``: The server base URL.
+- ``auth``: A list of NTLM authentication credentials. ['domain', 'username', 'password']
+- ``headers``: Default headers dictionary.
+- ``timeout``: The connection timeout in seconds.
+- ``proxies``: The proxy URLs dictionary for HTTP and/or HTTPS communication.
+- ``verify``: Set to True if [http://goo.gl/8p7MOG|Requests] should verify the SSL
+              certificate.
+
+Examples:
+| @{auth} = | Create List | domain | username | password |
+| ${var} = | Create NTLM Session | label | https://service | auth=@{auth} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Password Oauth2 Session">
+<arguments>
+<arg>*args</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Create and return an [http://goo.gl/VehoOR|OAuth2] session object to a server with
+[https://goo.gl/N9R62O|resource owner password credentials] authorization grant
+[https://goo.gl/YjNlJf|access token].
+
+Arguments:
+- ``label``: A case and space insensitive string to identify the OAuth2 session.
+- ``token_url``: The OAuth2 token server URL.
+- ``tenant_id``: The client id obtained during registration with OAuth2 provider.
+- ``tenant_secret``: The client secret obtained during registration with OAuth2 provider.
+- ``username``: The resource owner username.
+- ``password``: The resource owner password.
+- ``base_url``: The server base URL.
+- ``headers``: Default headers dictionary.
+- ``cookies``: Default cookies dictionary.
+- ``timeout``: The connection timeout in seconds.
+- ``proxies``: The proxy URLs dictionary for HTTP and/or HTTPS communication.
+- ``verify``: Set to True if [http://goo.gl/8p7MOG|Requests] should verify the SSL
+              certificate.
+
+Examples:
+| ${var} = | Create Password OAuth2 Session | label | https://token |
+| ${var} = | Create Password OAuth2 Session | label | https://token | key | secret |
+| ${var} = | Create Password OAuth2 Session | label | https://token | username=usn | password=pwd |
+| ${var} = | Create Password OAuth2 Session | label | https://token | key | secret | usn | pwd |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Create Session">
+<arguments>
+<arg>label</arg>
+<arg>base_url</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Create and return a HTTP session object to a server.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify the OAuth2 session.
+- ``base_url``: The server base URL.
+- ``auth``: A list of HTTP basic authentication credentials. ['username', 'password']
+- ``headers``: Default headers dictionary.
+- ``timeout``: The connection timeout in seconds.
+- ``proxies``: The proxy URLs dictionary for HTTP and/or HTTPS communication.
+- ``verify``: Set to True if [http://goo.gl/8p7MOG|Requests] should verify the SSL
+              certificate.
+
+Examples:
+| @{auth} = | Create List | username | password |
+| ${var} = | Create Session | label | https://service | auth=@{auth} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Delete All Sessions">
+<arguments>
+</arguments>
+<doc>Removes all the session objects</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Delete Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a DELETE request on the session object found in the cache using the given
+``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify the Session object
+             in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``data``: A key-value pairs dictionary that will be urlencoded and
+            sent as raw body content data or binary data.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| ${var} = | Delete Request | label | /endpoint |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Delete Session">
+<arguments>
+<arg>label</arg>
+</arguments>
+<doc>Removes session object using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+
+Examples:
+| Delete Session | label |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Json File">
+<arguments>
+<arg>path</arg>
+</arguments>
+<doc>Returns [http://goo.gl/o0X6Pp|JSON] object from [http://goo.gl/o0X6Pp|JSON] file
+with all variables replaced.
+
+Arguments:
+- ``path``: The path to JSON file.
+
+Examples:
+
+_request.json_
+| [{
+|     "bad": ${false},
+|     "good": ${true},
+|     "key": 5.5,
+|     "key2": "value2"
+| }]
+
+| @{var} = | Get JSON File | request.json |
+| # [{'key2': 'value2', 'bad': False, 'good': True, 'key': Decimal('5.5')}] |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a GET request on the session object found in the cache using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``params``: A key-value pairs dictionary that will be urlencoded and sent as GET data.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| ${var} = | Get Request | label | /endpoint |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Session Object">
+<arguments>
+<arg>label</arg>
+</arguments>
+<doc>Returns the session object found in the cache using the given ``label``
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+
+Examples:
+| ${var} = | Get Session Object | label |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Head Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a HEAD request on the session object found in the cache using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| ${var} = | Head Request | label | /endpoint |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Json Loads">
+<arguments>
+<arg>text</arg>
+</arguments>
+<doc>Returns [http://goo.gl/o0X6Pp|JSON] object from [http://goo.gl/o0X6Pp|JSON] string
+with object restoration support.
+
+Arguments:
+- ``text``: JSON string.
+
+Supported object restoration:
+| `py/dict`                    |
+| `py/tuple`                   |
+| `py/set`                     |
+| `py/collections.namedtuple`  |
+| `py/collections.OrderedDict` |
+
+Examples:
+| @{var} = | JSON Loads | [{"key":"value"}] |
+| @{var} = | JSON Loads | [{"py/dict":{"key":"value"}}] |
+| @{var} = | JSON Loads | [{"py/tuple":(1,2,3)}] |
+| @{var} = | JSON Loads | [{"py/set":[1,2,3]}] |
+| @{var} = | JSON Loads | [{"py/collections.namedtuple":{"fields":"a b c","type":"NAME","values":(0,1,2)}}] |
+| @{var} = | JSON Loads | [{"py/collections.OrderedDict":[("key2",2),("key1",1)]}] |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Natural Sort List Of Dictionaries">
+<arguments>
+<arg>items</arg>
+<arg>key</arg>
+</arguments>
+<doc>Returns natural sorted list of dictionaries.
+
+Arguments:
+- ``items``: List of dictionaries to be sorted.
+- ``key``: The dictionary key to be used to sort.
+
+Examples:
+| @{var} = | Natural Sort List Of Dictionaries | ${list} | key |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Options Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a OPTIONS request on the session object found in the cache
+using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| ${var} = | Options Request | label | /endpoint |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Patch Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a PATCH request on the session object found in the cache
+using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``data``: A key-value pairs dictionary that will be urlencoded and
+            sent as raw body content data or binary data.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``files``: Multiple file names and file paths dictionary data to be uploaded.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| &amp;{files} = | Create Dictionary | file1=/path/to/a_file.ext | file2=/path/to/another_file.ext | # Collections library |
+| ${var} = | Patch Request | label | /endpoint | files=&amp;{files} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Post Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a POST request on the session object found in the cache using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``data``: A key-value pairs dictionary that will be urlencoded and
+            sent as raw body content data or binary data.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``files``: Multiple file names and file paths dictionary data to be uploaded.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| &amp;{files} = | Create Dictionary | file1=/path/to/a_file.ext | file2=/path/to/another_file.ext | # Collections library |
+| ${var} = | Post Request | label | /endpoint | files=&amp;{files} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Put Request">
+<arguments>
+<arg>label</arg>
+<arg>uri</arg>
+<arg>**kwargs</arg>
+</arguments>
+<doc>Send a PUT request on the session object found in the cache using the given ``label``.
+
+Arguments:
+- ``label``: A case and space insensitive string to identify
+             the Session object in the cache.
+- ``uri``: The request URI that will be combined with ``base_url``
+           if it was specified in the Session object.
+- ``data``: A key-value pairs dictionary that will be urlencoded and
+            sent as raw body content data or binary data.
+- ``headers``: Headers dictionary that will be accompanied the request.
+- ``allow_redirects``: A flag to allow connection redirects.
+
+Examples:
+| ${var} = | Put Request | label | /endpoint |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Request Should Be Successful">
+<arguments>
+<arg>response</arg>
+</arguments>
+<doc>Fails if response status code is a client or server error (4xx, 5xx).
+
+The ``response`` is the output of other requests keywords like ``Get Request``.
+
+In case of failure an HTTPError will be automatically raised.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Session Exists">
+<arguments>
+<arg>alias</arg>
+</arguments>
+<doc>Return True if the session has been already created
+
+``alias`` that has been used to identify the Session object in the cache</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Status Should Be">
+<arguments>
+<arg>expected_status</arg>
+<arg>response</arg>
+<arg>msg=None</arg>
+</arguments>
+<doc>Fails if response status code is different than the expected.
+
+``expected_status`` could be the code number as an integer or as string.
+But it could also be a named status code like 'ok', 'created', 'accepted' or
+'bad request', 'not found' etc.
+
+The ``response`` is the output of other requests keywords like ``Get Request``.
+
+A custom message ``msg`` can be added to work like built in keywords.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Update Session">
+<arguments>
+<arg>alias</arg>
+<arg>headers=None</arg>
+<arg>cookies=None</arg>
+</arguments>
+<doc>Update Session Headers: update a HTTP Session Headers
+
+``alias`` Robot Framework alias to identify the session
+
+``headers`` Dictionary of headers merge into session</doc>
+<tags>
+</tags>
+</kw>
+</keywordspec>

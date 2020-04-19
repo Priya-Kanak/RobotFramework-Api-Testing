@@ -4,7 +4,7 @@ Api Automation Testing using Robot Framework
 Introduction:-
 
   This framework has sample request for GET and POST method of API Testing using below version:
-    1.  Robot Framework Version:-3.1.2
+    1.  Robot Framework Version:-3.1.2 and 
     2.  Python Version:-3.7.0
   
   However, there will be some error if you have RobotFramework version 2.x and Python Version 2.x because Libraries are different           according to version and so the keywords inside the method also varies.
